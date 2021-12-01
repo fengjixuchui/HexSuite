@@ -4,6 +4,20 @@ Some of the features it currently supports are as follows:
 
 
 - One-click linking to Hex-Rays API using Visual Studio.
+
+- Instruction wrappers and easy memory-management under `hexsuite/architecture.hpp`:
+
+```cpp
+auto ci = hex::call_info(
+	hex::pure_t{},
+	tinfo_t{ BT_INT32 },
+	hex::call_arg{ hex::reg( eax_arg, 4 ), tinfo_t{ BT_INT32 } },
+	hex::call_arg{ hex::reg( ecx_arg, 4 ), tinfo_t{ BT_INT32 } }
+);
+auto call = hex::make_call( cg.insn.ea, hex::helper( extr ), std::move( ci ) );
+auto mov =  hex::make_mov( cg.insn.ea, std::move( call ), hex::reg( reg, 4 ) );
+```
+
 - Lambda visitors under `hexsuite/visitors.hpp`:
 
 ```cpp
